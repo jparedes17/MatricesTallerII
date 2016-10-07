@@ -65,11 +65,9 @@ public class Principal extends javax.swing.JFrame {
         cmbOperaciones = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTablaInicial = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtResultado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -172,9 +170,9 @@ public class Principal extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblTablaResultado);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 170, 360, 210));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 170, 360, 210));
 
-        cmbOperaciones.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Cant. Num Pares", "Números Pares", "Letra C", "Diagonal Prinpal", "Letra H", "Recorrido Uno", "Recorrido Dos" }));
+        cmbOperaciones.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Letra B", "Letra K", "Letra R", "Letra M", "Letra G", "Letra J", "Letra W", "Letra Q", "Figura 1", "Figura 2", "Figura 3", "Figura 4", " ", " " }));
         jPanel1.add(cmbOperaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 250, -1, -1));
 
         tblTablaInicial.setModel(new javax.swing.table.DefaultTableModel(
@@ -189,44 +187,48 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 360, 210));
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Resultado"));
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 490));
 
-        txtResultado.setEditable(false);
-        txtResultado.setColumns(20);
-        txtResultado.setRows(5);
-        jScrollPane3.setViewportView(txtResultado);
-
-        jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 440, -1));
-
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 420, 480, 140));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        setSize(new java.awt.Dimension(1013, 615));
+        setSize(new java.awt.Dimension(983, 523));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCrearActionPerformed
         int nf, nc;
         DefaultTableModel tm, tm2;
-
+        if (txtNumerodeColumnas.getText().trim().isEmpty())
+        {
+          Helper.mensaje(this, "Ingrese el Numero de Columnas", 3);
+          txtNumerodeColumnas.requestFocusInWindow();
+        }
+        else if (txtNumerodeFilas.getText().trim().isEmpty()){
+            Helper.mensaje(this, "Ingrese el Numero de Filas", 3);
+            txtNumerodeFilas.requestFocusInWindow();
+        }
+        else {
+            
+        try{
         nf = Integer.parseInt(txtNumerodeFilas.getText());
         nc = Integer.parseInt(txtNumerodeColumnas.getText());
 
+        if (nf <4)
+        {
+           Helper.mensaje(this, "El numero de filas no puede ser menor a 4", 2);
+        }
+        else if (nc <4)
+        {
+            Helper.mensaje(this, "El numero de columnas no puede ser menor a 4 ", 2);
+        }
+        else if ( nc>=12)
+        {
+            Helper.mensaje(this, "El numero de columnas no puede ser mayor a 12 ", 2);
+        }
+        else if ( nf >=12 )
+        {
+           Helper.mensaje(this, "El numero de filas no puede mayor a 12", 2);
+        }
+        else {
+        
         tm = (DefaultTableModel) tblTablaInicial.getModel();
         tm2 = (DefaultTableModel) tblTablaResultado.getModel();
 
@@ -235,12 +237,20 @@ public class Principal extends javax.swing.JFrame {
 
         tm2.setRowCount(nf);
         tm2.setColumnCount(nc);
-
+        
+        
         JButton botonesH[]={cmdLlenadoManual,cmdLlenadoAutomatico, cmdLimpiar};
         JButton botonesD[]={cmdCrear, cmdOperacion};
-        
+    
         Helper.habilitarBotones(botonesH);
         Helper.deshabilitarBotones(botonesD);
+        
+        }
+        }catch (NumberFormatException e)
+        {
+           Helper.mensaje(this, "Ingrese un numero valido", 3);
+        }
+        }
     }//GEN-LAST:event_cmdCrearActionPerformed
 
     private void cmdLlenadoAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLlenadoAutomaticoActionPerformed
@@ -266,34 +276,147 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdLlenadoAutomaticoActionPerformed
 
     private void cmdOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdOperacionActionPerformed
-        int op, cantPares;
+        int op, nf, nc;
+        DefaultTableModel tm, tm2;
         op = cmbOperaciones.getSelectedIndex();
         Helper.limpiadoTabla(tblTablaResultado);
-        
+        nf = Integer.parseInt(txtNumerodeFilas.getText());
+        nc = Integer.parseInt(txtNumerodeColumnas.getText());
+        tm = (DefaultTableModel) tblTablaInicial.getModel();
+        tm2 = (DefaultTableModel) tblTablaResultado.getModel();
+        tm.setRowCount(nf);
+        tm.setColumnCount(nc);
+        tm2.setRowCount(nf);
+        tm2.setColumnCount(nc);
         switch (op) {
+            
             case 0:
-                cantPares = Helper.cantidadPares(tblTablaInicial);
-                txtResultado.setText("El número de elementos pares es: " + cantPares);
+                if (nf != nc || nf%2 == 0 && nc%2 == 0)
+                {
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                }
+                else {
+                Helper.letraB(tblTablaInicial, tblTablaResultado);
+                }
                 break;
+                
             case 1:
-                Helper.pares(tblTablaInicial, tblTablaResultado);
+                if (nf<nc)
+                      {
+                          Helper.mensaje(this, "El No. Filas debe ser mayor al No. Columnas", 2);
+                      }
+                      else if (nf%2 == 0 || nc%2 == 1)
+                      {
+                         Helper.mensaje(this, "El No. Filas debe ser impar y No. Columnas par", 2);
+                      }
+                      else 
+                      {
+                Helper.LetraK(tblTablaInicial, tblTablaResultado);
+                      }
                 break;
+                
             case 2:
-                Helper.letraC(tblTablaInicial, tblTablaResultado);
+                if (nf != nc || nf%2 == 0 && nc%2 == 0)
+                {
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                }
+                else {
+                Helper.letraR(tblTablaInicial, tblTablaResultado);
+                }
                 break;
+                
             case 3:
-                Helper.diagonalPrincipal(tblTablaInicial, tblTablaResultado);
+                if (nf != nc || nf%2 == 0 && nc%2 == 0){
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                }
+                else{
+                Helper.letraM(tblTablaInicial, tblTablaResultado);
+                }
                 break;
+                
             case 4:
-                Helper.letraH(tblTablaInicial, tblTablaResultado);
+                Helper.letraG(tblTablaInicial, tblTablaResultado);
                 break;
+                
                  case 5:
-                txtResultado.setText(Helper.recorridoUno(tblTablaInicial));
+                     if (nf != nc || nf%2 == 0 && nc%2 == 0)
+                {
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                }
+                else {
+                Helper.letraJ(tblTablaInicial, tblTablaResultado);
+                     }
                 break;
+                
                   case 6:
-                txtResultado.setText(Helper.recorridoDos(tblTablaInicial));
+                      if (nf != nc || nf%2 == 0 && nc%2 == 0)
+                {
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                }
+                else {
+                Helper.letraW(tblTablaInicial, tblTablaResultado);
+                      }
                 break;
+                
+                  case 7:
+                      if (nf != nc || nf%2 == 0 && nc%2 == 0)
+                {
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                }
+                else {
+                Helper.letraQ(tblTablaInicial, tblTablaResultado);
+                     }
+                     break;
                      
+                  case 8:
+                      if (nf<nc)
+                      {
+                          Helper.mensaje(this, "El No. Filas debe ser mayor al No. Columnas", 2);
+                      }
+                      else if (nf%2 == 1 || nc%2 == 0)
+                      {
+                         Helper.mensaje(this, "El No. Filas debe ser par y No. Columnas impar", 2);
+                      }
+                      else 
+                      {
+                Helper.Figura1(tblTablaInicial, tblTablaResultado);
+                      }
+                     break;
+                     
+                  case 9:
+                      if (nf>nc)
+                      {
+                          Helper.mensaje(this, "El No. Columnas debe ser mayor al No. Filas", 2);
+                      }
+                      else if (nf%2 == 0 || nc%2 == 1)
+                      {
+                         Helper.mensaje(this, "El No. Filas debe ser impar y No. Columnas par", 2);
+                      }
+                      else 
+                      {
+                Helper.Figura2(tblTablaInicial, tblTablaResultado);
+                      }
+                     break;
+                     
+                   case 10:
+                       if (nf != nc || nf%2 == 1 && nc%2 == 1)
+                      {
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                      }
+                else {
+                Helper.Figura3(tblTablaInicial, tblTablaResultado);
+                     }
+                     break;
+                     
+                   case 11:
+                       if (nf != nc || nf%2 == 0 && nc%2 == 0)
+                {
+                    Helper.mensaje(this, "La matriz debe ser cuadrada e impar", 2);
+                }
+                       else{
+                Helper.Figura4(tblTablaInicial, tblTablaResultado);
+                       }
+                     break;
         }
         
         JButton botonesH[]={cmdOperacion,cmdLimpiar};
@@ -310,7 +433,7 @@ public class Principal extends javax.swing.JFrame {
         txtNumerodeColumnas.setText("");
         txtNumerodeFilas.requestFocusInWindow();
         cmbOperaciones.setSelectedIndex(0);
-        txtResultado.setText("");
+        
 
        Helper.porDefectoTabla(tblTablaInicial);
        Helper.porDefectoTabla(tblTablaResultado);
@@ -418,10 +541,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tblTablaInicial;
     private javax.swing.JTable tblTablaResultado;
     private javax.swing.JTextField txtNumerodeColumnas;
@@ -430,6 +551,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txtNumerodeFilas;
     private javax.swing.JTextField txtNumerodeFilas1;
     private javax.swing.JTextField txtNumerodeFilas3;
-    private javax.swing.JTextArea txtResultado;
     // End of variables declaration//GEN-END:variables
 }

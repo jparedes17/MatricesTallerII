@@ -26,7 +26,7 @@ public class Test {
         m[3][1]=2;
         m[3][2]=9;
         
-        System.out.println(Helper.recorridoHaciaArriba(m,0,2,1));
+       
         
     
     }
